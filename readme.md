@@ -1,4 +1,4 @@
-# 从0到1深入学习typescript、react、redux、electron
+# 基于electron、react、redux、typescript、webpack构建的桌面智能财务软件
 
 ## 注意事项
 ### 遇到需要确认安装`webpack-dev-server`
