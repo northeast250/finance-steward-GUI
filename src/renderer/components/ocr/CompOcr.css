@@ -1,0 +1,12 @@
+.content {
+    position: relative;
+    padding: 10px
+}
+
+.ocr-result {
+    font-size: x-small;
+}
+
+.ocr-result-2 {
+    font-size: smaller;
+}
