@@ -6,7 +6,7 @@
   "mail": "shawninjuly@gmail.com",
   "license": "MIT",
   "scripts": {
-    "start:main": "webpack --config webpack.config.main.babel.js && cross-env NODE_ENV=development electron -r ./scripts/babel_register ./src/main/index.ts",
+    "start:main": "cross-env NODE_ENV=development electron -r ./scripts/babel_register ./src/main/index.ts",
     "start:renderer": "cross-env NODE_ENV=development webpack serve --config webpack.config.renderer.babel.js"
   },
   "dependencies": {

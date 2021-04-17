@@ -48,7 +48,7 @@ g
 
 不过还没完，还得加上一个`babel_register`的脚本，在运行`renderer`中不需要加是因为有`webpack serve`帮我们搞定了，但运行`electron`我们是纯`babel`，所以需要自己预处理`.ts`相关文件。
 
-基于此，`electron`就可以顺利跑起来了，至于`electron`如何做到热更新，待续！
+另外有趣的一点是，基于`tsc`编译后的每个`.ts`文件都有一个对应的`.js`文件，而通过`babel`编译后的每个`.ts`文件都对应两个额外文件：`.d.ts`和`.d.ts.map`。
 
 ### 如何结合`main`和`renderer`进行打包渲染？
 第一种方法，是将`main`和`renderer`独立开来。
