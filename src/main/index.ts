@@ -1,67 +1,46 @@
 import path from "path";
-import { app, BrowserWindow, dialog, ipcMain } from "electron";
-import { Application, Communications, ImgRoot } from "./settings";
-import { loadImgsFromResourceRoot } from "./functions/loadImgs";
+import { app, BrowserWindow, ipcMain } from "electron";
+import { applicationLatest } from "./control";
+import { handleEnv } from "./utils";
+import { handleSwitchRoot } from "./communications";
 
-let mainWindow: BrowserWindow | null = null;
+// 开发模式使用electron热重载，它会自动构建依赖图
+// 一定要小心这里要监测的范围，由于我们修改electron主要是一些程序部分，所以千万不要把需要不断覆写的数据文件也加进来，不然会一直重载
+// 这里的启示是要把数据文件独立出去，比如放在与`main`同级的`data`文件夹下，然后只监控`main`文件夹
+try {
+  require("electron-reloader")(__dirname);
+} catch {}
+
+// 注册事件
+ipcMain.handle("SWITCH_ROOT", handleSwitchRoot);
+
+// 创建窗口
+let mainWindow: BrowserWindow = (null as unknown) as BrowserWindow;
 
 function createMainWindow() {
   mainWindow = new BrowserWindow({
-    title: Application.title,
-    width: 800,
-    height: 600,
+    title: applicationLatest.title,
+    width: 1400,
+    height: 800,
 
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
       contextIsolation: false,
-      allowRunningInsecureContent: true,
+      // 需要进行预编译
+      preload: path.join(app.getAppPath(), "preload.js"),
     },
   });
-
-  const isDevelopment = process.env.NODE_ENV === "development";
-  console.log("is development?: ", isDevelopment);
-
-  if (isDevelopment) {
-    // mainWindow.maximize();
-    mainWindow.webContents.openDevTools();
-  }
-
-  if (isDevelopment) mainWindow.loadURL(`http://localhost:8080`);
-  else mainWindow.loadFile(path.join(__dirname, "../../index.html"));
-
-  mainWindow.on("closed", () => {
-    mainWindow = null;
-  });
-
-  // 接受前端发起的文件管理请求
-  ipcMain.handle(Communications.UpdateResourceRoot, loadResource);
-
+  handleEnv(mainWindow, process.env.NODE_ENV === "development");
   return mainWindow;
 }
 
+// App开始监听系统级别事件
+app.on("ready", () => {
+  mainWindow = createMainWindow();
+});
 app.on("activate", () => {
-  // on macOS it is common to re-create a window even after all windows have been closed
   if (mainWindow === null) {
     mainWindow = createMainWindow();
   }
 });
-
-// create main BrowserWindow when electron is ready
-app.on("ready", () => {
-  mainWindow = createMainWindow();
-});
-
-function loadResource() {
-  const res = dialog.showOpenDialogSync({
-    title: "UpdateResourceRoot",
-    defaultPath: ImgRoot,
-    properties: ["openDirectory"],
-    buttonLabel: "确认素材库",
-  });
-  if (!res) return;
-  const root = res[0];
-  const imgs = loadImgsFromResourceRoot(root);
-  console.log({ root, imgs });
-  // store.dispatch(initImgsAction(root, imgs));
-}

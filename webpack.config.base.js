@@ -19,6 +19,18 @@ export const basicConfig = {
         use: "source-map-loader",
         enforce: "pre", // todo: 我也不知道这个到底有啥用
       },
+      {
+        test: /\.css$/,
+        use: [{ loader: "style-loader" }, { loader: "css-loader" }],
+      },
+      {
+        test: /\.less$/,
+        use: [
+          { loader: "style-loader" },
+          { loader: "css-loader" },
+          { loader: "less-loader" },
+        ],
+      },
     ],
   },
 };

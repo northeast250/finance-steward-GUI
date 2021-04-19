@@ -6,10 +6,13 @@
   "mail": "shawninjuly@gmail.com",
   "license": "MIT",
   "scripts": {
-    "start:main": "cross-env NODE_ENV=development electron -r ./scripts/babel_register ./src/main/index.ts",
-    "start:renderer": "cross-env NODE_ENV=development webpack serve --config webpack.config.renderer.babel.js"
+    "start:main": "tsc --esModuleInterop ./src/main/preload.ts && cross-env NODE_ENV=development  electron -r ./scripts/babel_register ./src/main/index.ts",
+    "start": "cross-env NODE_ENV=development webpack serve --config webpack.config.renderer.babel.js",
+    "restart": "rm -rf ./src/data/* && npm run start"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "axios": "^0.21.1",
     "electron": "^12.0.4",
     "fs": "^0.0.1-security",
@@ -24,6 +27,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.15",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/preset-env": "^7.13.15",
     "@babel/preset-typescript": "^7.13.0",
     "@babel/register": "^7.13.14",
@@ -32,12 +36,19 @@
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "@types/react-redux": "^7.1.16",
+    "@types/redux": "^3.6.0",
     "@types/redux-logger": "^3.0.8",
+    "@types/redux-thunk": "^2.1.0",
     "@types/webpack-env": "^1.16.0",
     "cross-env": "^7.0.3",
+    "css-loader": "^5.2.2",
+    "electron-reloader": "^1.2.0",
     "html-webpack-plugin": "^5.3.1",
+    "less": "^4.1.1",
+    "less-loader": "^8.1.1",
     "redux-logger": "^3.0.6",
     "source-map-loader": "^2.0.1",
+    "style-loader": "^2.0.0",
     "ts-loader": "^8.1.0",
     "typescript": "^4.2.4",
     "webpack": "^5.33.2",

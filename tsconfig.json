@@ -3,8 +3,8 @@
     "target": "ES2018",
     "module": "CommonJS",
     "lib": ["dom", "esnext"],
-    "declaration": true,
-    "declarationMap": true,
+//    "declaration": true,  // createStore结合combinedReducers时就会报错
+//    "declarationMap": true,
 //    "noEmit": true,
     "jsx": "react",
     "strict": true,
@@ -20,7 +20,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "allowJs": true
+    "allowJs": false
   },
   "include": [
     "src/**/*"

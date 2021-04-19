@@ -1,18 +1,14 @@
-import { ImgState } from "../redux/interface";
+import { dialog } from "electron";
+import path from "path";
 
-export enum CommunicationStatus {
-  Success = "Success",
-}
+export function handleSwitchRoot() {
+  console.log("ipcMain receive: ", "SWITCH_ROOT");
 
-export type CommunicationData = object;
-
-export interface CommunicationResult {
-  status: CommunicationStatus;
-  data: CommunicationData;
-}
-
-export interface CommunicationResourceResult extends CommunicationResult {
-  data: {
-    imgs: ImgState[];
-  };
+  const res = dialog.showOpenDialogSync({
+    defaultPath: path.resolve(__dirname, "../../.."),
+    buttonLabel: "确认选择",
+    title: "选定资源根目录",
+    properties: ["openDirectory"],
+  });
+  return res ? res[0] : "";
 }

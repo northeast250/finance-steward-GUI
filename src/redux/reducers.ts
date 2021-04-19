@@ -1,12 +1,14 @@
 import { combineReducers } from "redux";
 import { tokenReducer } from "./token/reducers";
-import { imgsReducers } from "./imgs/reducers";
+import { libraryReducers } from "./library/reducers";
+import { marksReducer } from "./mark/reducers";
+import { menusReducer } from "./menus/reducers";
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   token: tokenReducer,
-  imgs: imgsReducers,
+  imgs: libraryReducers,
+  marks: marksReducer,
+  menus: menusReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
-
-export default rootReducer;

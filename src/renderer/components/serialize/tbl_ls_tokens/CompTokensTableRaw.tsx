@@ -1,6 +1,6 @@
 import React from "react";
-import { ScenarioTypes } from "../../../ds/trade/token";
 import { CompLsTokensProps } from "../CompShowTokens";
+import { Scenario } from "../../../../general/interface/serialize/scenario";
 
 const CompTokensTableRaw = (props: CompLsTokensProps) => {
   return (
@@ -11,7 +11,7 @@ const CompTokensTableRaw = (props: CompLsTokensProps) => {
           <th>交易名称</th>
           <th>交易时间</th>
           <th>交易金额</th>
-          {props.data.scenario === ScenarioTypes.LsZfb && (
+          {props.data.scenario === Scenario.ZFB_LS && (
             <>
               <th>交易类型</th>
               <th>交易状态</th>
@@ -25,9 +25,9 @@ const CompTokensTableRaw = (props: CompLsTokensProps) => {
           <tr key={index}>
             <td>{index + 1}</td>
             <td>{token.name}</td>
-            <td>{token.date.toLocaleString()}</td>
+            <td>{token.date?.toLocaleString()}</td>
             <td>{token.amount}</td>
-            {props.data.scenario === ScenarioTypes.LsZfb && (
+            {props.data.scenario === Scenario.ZFB_LS && (
               <>
                 <td>{token.type}</td>
                 <td>{token.status}</td>

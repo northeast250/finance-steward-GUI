@@ -1,18 +1,17 @@
-import * as React from "react";
-import { CompMenuBtn, MenuTypes } from "./CompMenuBtn";
+import React from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
-// import { ipcRenderer } from "electron";
-
-const onLoadResource = () => {
-  console.log("open resource");
-  // ipcRenderer.emit("InitImgs");
-};
+import { AppState } from "../../../redux/reducers";
+import { switchRoot } from "../../../redux/library/actions";
+import { Button, ButtonGroup } from "@material-ui/core";
+import { switchMenu } from "../../../redux/menus/actions";
+import { MenuType } from "../../../redux/menus/reducers";
+import { FolderOpen } from "@material-ui/icons";
 
 export interface CompHeaderProps {
-  curType: MenuTypes;
-  menu: any;
-  loadResource: any;
+  switchMenu: any;
+
+  root: string;
+  switchRoot: any;
 }
 
 export function CompHeader(props: CompHeaderProps) {
@@ -29,29 +28,45 @@ export function CompHeader(props: CompHeaderProps) {
         width: "100%",
       }}
     >
-      <button
-        onClick={props.loadResource}
-        style={{ margin: "10px", fontSize: "x-large" }}
-      >
-        Resources
-      </button>
+      <ButtonGroup variant={"text"} color={"primary"} aria-label={"menus"}>
+        <Button onClick={() => props.switchMenu(MenuType.Serialize)}>
+          分类与序列化
+        </Button>
+        <Button onClick={() => props.switchMenu(MenuType.OCR)}>OCR识别</Button>
+      </ButtonGroup>
 
-      <CompMenuBtn
-        title={"Serialize"}
-        type={MenuTypes.Serialize}
-        curType={props.curType}
-        setMenu={props.menu}
-      />
-      <CompMenuBtn
-        title={"OCR"}
-        type={MenuTypes.OCR}
-        curType={props.curType}
-        setMenu={props.menu}
-      />
+      <div
+        style={{
+          display: "inline-flex",
+          // - [Flex 如何让最后一项右边对齐？（CSS）_亮子介-CSDN博客_flex 最后一个右对齐](https://blog.csdn.net/henryhu712/article/details/82427806)
+          marginLeft: "auto",
+          // 如果不加下一句，则整个组件在留白过多的时候，还是会居左
+          justifyContent: "flex-end",
+        }}
+      >
+        <p className={"single-line-left"}>{props.root}</p>
+
+        <Button
+          variant={"outlined"}
+          color={"secondary"}
+          onClick={props.switchRoot}
+          endIcon={<FolderOpen />}
+          style={{ margin: "0 15px" }}
+        >
+          导入源
+        </Button>
+      </div>
     </div>
   );
 }
 
-export default connect(null, (dispatch: Dispatch) => ({
-  loadResource: () => dispatch({ type: "InitImgs" }),
-}))(CompHeader);
+const mapState = (state: AppState) => ({
+  root: state.imgs.root,
+});
+
+const mapDispatch = {
+  switchRoot,
+  switchMenu,
+};
+
+export default connect(mapState, mapDispatch)(CompHeader);

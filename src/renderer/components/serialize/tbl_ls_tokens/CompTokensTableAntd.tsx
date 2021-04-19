@@ -1,6 +1,6 @@
 // import { Table, TableColumnProps } from "antd";
 // import React from "react";
-// import { ScenarioTypes } from "../../../ds/trade/token";
+// import { ScenarioTypes } from "../../../ds/ocr/token";
 // import { CompLsTokensProps } from "../CompShowTokens";
 //
 // export const tokenColumnsBase: TableColumnProps<any>[] = [

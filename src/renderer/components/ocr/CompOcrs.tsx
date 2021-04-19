@@ -1,11 +1,13 @@
-import * as React from "react";
+import React from "react";
 import CompOcr from "./CompOcr";
-import {ImgState} from "../../ds/img";
+import { ImgListProps } from "../img/CompImgInfo";
 
-export const CompOcrs = ({ data }: { data: ImgState[] }) => {
+export interface CompOcrsProps extends ImgListProps {}
+
+export const CompOcrs = (props: CompOcrsProps) => {
   return (
     <>
-      {data.map((img, index) => (
+      {props.visibleImgs.map((img, index) => (
         <CompOcr key={index} img={img} />
       ))}
     </>

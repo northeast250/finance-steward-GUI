@@ -1,0 +1,20 @@
+@import "./ocr";
+
+.single-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    white-space: nowrap;
+}
+
+.single-line-left {
+    .single-line();
+    direction: rtl;
+    text-align: left;
+}
+
+
+.desc{
+    font-size: small;
+    color: gray;
+}

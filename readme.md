@@ -1,5 +1,13 @@
 # 基于electron、react、redux、typescript、webpack构建的桌面智能财务软件
 
+## TODO
+- [ ] 增加对其他类型，例如图片等文件的导入支持（暂无需求）
+- [x] 解决`react`的热更新问题（已基于`webpack serve`实现）
+- [x] 解决`electron`的热更新问题（已基于`electron-reloader`实现）
+- [x] 增加对`css`、`less`等文件的导入支持（已基于`style-loader`、`css-loader`、`les-loader`在`webpack`中实现）
+- [ ] 修复由于`redux-thunk`导致的`redux`在`createStore`时出现`typescript`警告的问题（这个问题最令我惊奇的是使用`//@ts-ignore`都无法屏蔽……不过本质上是因为`combinedReducers`用到了一个特有`Symbol`叫`$CombinedState`，反正挺蛋疼，我暂时先在`tsconfig.json`配置里把`declaration`和`declarationMap`关了，就没问题了，这个`ts`选项我暂时也用不到。）
+- [x] 基于以上对`redux-thunk`的修复，进一步寻找一个优秀的`typescipt`+`redux`的编码约定（目前我把所有的`actionTypes`写在一个文件里，然后在`actions`文件里写同步（直接返回`Action`）或者异步（`thunk`）代码，其中`thunk`不走`reducer`，同时还要把`thunk`中间件放在`logger`中间件的前面。另外，我不再考虑既声明`ActionType`又声明`Action`的问题了，对于`Action`直接使用`AnyAction`（默认自带`type`属性），对于`ActionType`直接使用`switch(action.type as XXActionType)`代码约定，我觉得挺好的。日后再研究其他大佬的代码吧~）
+
 ## 注意事项
 ### 遇到需要确认安装`webpack-dev-server`
 直接按`Y`确认即可，或者提前在本地全局安装好：
@@ -17,7 +25,34 @@ WebStorm > Preference > Language & FrameWorks > Typescript > Typescript
 ```
 选择自己本地全局安装的Typescript（注意先更新到最新版，目前是4.2.4+），不要选用项目初始化的内置Typescript
 
-## 开发经验
+## 框架相关 - 开发经验
+### 如何用`webpack`打包`css`、`less`等
+`webpack`的交互对象是`js`文件，需要通过其他`loader`将特定格式的文件转成`js`文件处理。
+
+对于`css`文件，可以先通过`css-loader`转成`css`信息的`js`数组格式，这个时候`css`其实已经导入了，但是尚未能够生效在目标网页上。
+
+而实现后一步操作的，就是`style-loader`，它们将这些编译后的`js`格式的`css`信息进一步插入到网页的`style`标签内（这也就是`style-loader`取名之意）。
+
+而对于其他格式，比如`less`、`sass`等，则可以先将它们转成`css`格式，要么直接用特定的`loader`，比如对于`less`文件可以使用`lees-loader`，要么可以用`postcss`处理（此项目只用了`less-loader`，[todo]: `postcss`有点复杂，日后再更）。
+
+其配置如下：
+```js
+[
+  {
+    test: /\.css$/,
+    use: [{ loader: "style-loader" }, { loader: "css-loader" }],
+  },
+  {
+    test: /\.less$/,
+    use: [
+      { loader: "style-loader" },
+      { loader: "css-loader" },
+      { loader: "less-loader" },
+    ],
+  }
+]
+```
+
 ### 如何在`webpack.config.js`中使用`ESM`（即`import`和`export`）
 在学习一个好项目：https://github.com/electron-react-boilerplate/electron-react-boilerplate 的时候，发现他里面的所有`webpack`配置文件都用了`ESM`，非常好奇他的实现，因为我把自己的`webpack`配置文件从`CMJ`改成`ESM`后就无法运行了。
 
@@ -87,6 +122,45 @@ devServer: {
 
 还有一种办法就比较智能，那就是使用`webpack`的`html-webpack-plugin`插件，它会自动将`index.html`拷贝到目标位置，并且还会自动加上其依赖（也就是说，不需要手动写引入`bundle.js`、`react.js`、`react-dom.js`等）。此外，它还需要热更新功能，可谓一举双得，不过这会覆盖`devServer`里的`hot`选项。
 
-### TODO： `electron`如何热更新
+### `electron`如何热更新
 - 即使是`electron-react-boilerplate`也不支持`electron`的热更新，hh，得找其他库看看实现原理，估计都用到了`electron-reload`吧，不过这个也不重要，重要的还是`renderer`部分的热更新。
 
+然而很简单，只需要安装`electron-relaoder`后在`electron`的主程序里加三句话即可：
+```js
+try {
+	require('electron-reloader')(module);
+} catch {}
+```
+它的原理，就是会自动寻找入口文件的依赖图，然后对其进行文件修改监测，一旦有确认修改就重启。
+
+不过副作用就出现在这里，我们之前配置`renderer`的`webpack`部分时，加了一句：
+```js
+on('close', (code) => process.exit(code))
+```
+这一句代码会导致，当我们的`electron`程序关闭后自动关闭渲染进程，所以我们要删掉这一行。
+
+（理论上`renderer`进程是`electron`进程的子进程，但是我们的`webpack`配置结果就是`electron`进程是`renderer`进程的子进程，目前来看没有太大问题，我不确定如果我们反过来是否就是把`before`改成`after`就完事了，但好像改的意义也不是特别大）
+
+关于`electron-reloader`可以参考：
+- [sindresorhus/electron-reloader: Simple auto-reloading for Electron apps during development](https://github.com/sindresorhus/electron-reloader#readme)
+
+
+## 业务相关 - 开发经验
+### 如何将OCR的结果显示在图片上，并且支持缩放
+第一种方法，也是一开始采取的方法，比较笨拙。
+
+那就是先求出预定的缩放比率，然后将图片按比例放缩，再讲OCR的矩形坐标按照比率进行计算再叠加渲染。
+
+我一直觉得这个方法很笨拙，但当时时间有限、技术有限，所以只好用了这个方案。
+
+第二种方法，图形本身不做缩放，OCR结果直接叠加渲染到图片上，最后将这个整体使用以下`CSS`进行缩放：
+```less
+.img-with-ocr {
+	transform: scale(SCALE);
+	transform-origin: top left;
+	height: IMG_HEIGHT * SCALE;
+}
+```
+这里的`IMG_HEIGHT`就是图片的实际高度，而`SCALE`就是目标缩放比率，由于我需要的图片布局就是统一宽度，高度按比率缩放，所以`SCALE`这么设计。这里之所以还要对这个形状的高度本身做限制，是因为我这个容器就是顶层容器，但是缩放效果是不改变容器大小的，因此会出现缩放后的效果与容器不贴合的副作用，因此还需要重设容器大小。
+
+这样，通过一个统一的缩放参数，就优化了第一种方案中需要计算`2 + 4 * N`遍的问题。此外，这种通过`CSS`里的`scale`参数去控制显示的缩放比率，还是非常有用的！（在此，感谢**威盛项目**，这个技巧便是在这个项目中摸索出来的。)

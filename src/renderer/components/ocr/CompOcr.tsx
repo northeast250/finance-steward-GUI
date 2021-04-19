@@ -1,71 +1,58 @@
-import * as React from "react";
-import CompOcrDraw from "./CompOcrDraw";
-import CompImgInfo from "../CompImgInfo";
-import { API_OCR } from "../../config";
-import {ImgState} from "../../ds/img";
-// import "./CompOcr.css";
+import React from "react";
+import CompOcrDraw from "../img/CompOcrDraw";
+import CompImgInfo, { ImgProps } from "../img/CompImgInfo";
+import { API_OCR } from "../../settings/config";
+import { Card, CardContent } from "@material-ui/core";
 
-export interface ImgProcessProps {
-  width: number;
-  height: number;
-  ratio: number;
-}
+export interface CompOcrProps extends ImgProps {}
 
-export interface CompOcrProps {
-  img: ImgState;
-}
-
-export const CompOcr = ({ img }: CompOcrProps) => {
-  const imgPath = [img.dir, img.name].join("/");
-  console.log("read img: ", [img.dir, img.name].join(""));
-
+export const CompOcr = (props: CompOcrProps) => {
   return (
-    <div>
-      <CompImgInfo img={img} />
+    <Card variant={"outlined"}>
+      <CardContent>
+        <CompImgInfo img={props.img} />
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "start",
-        }}
-      >
-        <CompOcrDraw
-          title={"API - 通用文字识别"}
-          apiType={API_OCR.API_OCR_GENERAL_TEXT}
-          img={img}
-        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "start",
+          }}
+        >
+          <CompOcrDraw
+            title={"API - 通用文字识别"}
+            apiType={API_OCR.API_OCR_GENERAL_TEXT}
+            img={props.img}
+          />
 
-        <CompOcrDraw
-          title={"API - 网络图片识别"}
-          apiType={API_OCR.API_OCR_WEB_IMAGE}
-          img={img}
-        />
+          <CompOcrDraw
+            title={"API - 网络图片识别"}
+            apiType={API_OCR.API_OCR_WEB_IMAGE}
+            img={props.img}
+          />
 
-        <div style={{ width: "300px" }}>
-          <h3>本地OCR </h3>
-          {/*{loadOcrResultFormer(imgPath).map((words, index) => {*/}
-          {/*  return (*/}
-          {/*    <div key={index} className={"ocr-result"}>*/}
-          {/*      {words}*/}
-          {/*    </div>*/}
-          {/*  );*/}
-          {/*})}*/}
+          <div style={{ width: "300px" }}>
+            <h3>本地OCR </h3>
+            {/*{loadOcrResultFormer(imgPath).map((words, index) => {*/}
+            {/*  return (*/}
+            {/*    <div key={index} className={"ocr-result"}>*/}
+            {/*      {words}*/}
+            {/*    </div>*/}
+            {/*  );*/}
+            {/*})}*/}
+          </div>
+
+          <div style={{ width: "300px" }}>
+            <h3>benchmark</h3>
+            {/*{loadOcrResultBenchmark(imgPath).map((words, index) => (*/}
+            {/*  <div key={index} className={"ocr-result"}>*/}
+            {/*    {words}*/}
+            {/*  </div>*/}
+            {/*))}*/}
+          </div>
         </div>
-
-        <div style={{ width: "300px" }}>
-          <h3>benchmark</h3>
-          {/*{loadOcrResultBenchmark(imgPath).map((words, index) => (*/}
-          {/*  <div key={index} className={"ocr-result"}>*/}
-          {/*    {words}*/}
-          {/*  </div>*/}
-          {/*))}*/}
-        </div>
-      </div>
-
-      {/* 分割 */}
-      <hr />
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
