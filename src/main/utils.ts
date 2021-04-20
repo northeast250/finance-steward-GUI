@@ -1,4 +1,4 @@
-import { Env } from "../general/interface/const";
+import { Env } from "../renderer/common/interface/const";
 import path from "path";
 import { BrowserWindow } from "electron";
 

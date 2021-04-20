@@ -1,5 +1,5 @@
 import React from "react";
-import { ENABLE_SHOW_WATERMARK } from "./settings/control";
+import { ENABLE_SHOW_WATERMARK } from "../settings/controlRenderer";
 import CompSerializes from "./components/serialize/CompSerializes";
 import CompHeader from "./components/header/CompHeader";
 import CompWatermark from "./components/support/CompWatermark";

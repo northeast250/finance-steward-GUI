@@ -1,6 +1,6 @@
 import React from "react";
 import { CompLsTokensProps } from "../CompShowTokens";
-import { Scenario } from "../../../../general/interface/serialize/scenario";
+import { Scenario } from "../../../common/interface/serialize/scenario";
 
 const CompTokensTableRaw = (props: CompLsTokensProps) => {
   return (

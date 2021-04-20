@@ -1,6 +1,6 @@
 import path from "path";
 import { app, BrowserWindow, ipcMain } from "electron";
-import { applicationLatest } from "./control";
+import { applicationLatest } from "../settings/controlMain";
 import { handleEnv } from "./utils";
 import { handleSwitchRoot } from "./communications";
 

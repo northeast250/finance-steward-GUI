@@ -1,14 +1,11 @@
-# 基于electron、react、redux、typescript、webpack构建的桌面智能财务系统开发笔记
+# 智能财务系统开发笔记
 
 [TOC]
 
 南川，2021年04月19日，V0.0.1
 
-## 项目展示
-
-![image-20210419222746653](https://mark-vue-oss.oss-cn-hangzhou.aliyuncs.com/20210419_222747_353645-image-20210419222746653.png)
-
-## TODO
+## 项目概况
+### TODO
 
 - [ ] **对分类结果与图片的本身标注做对比分析**
 - [ ] 进一步解决只识别出部分条目的图片问题（打算先以识别出小于3条的流水类图片着手分析）
@@ -22,10 +19,21 @@
 - [ ] 修复由于`redux-thunk`导致的`redux`在`createStore`时出现`typescript`警告的问题（这个问题最令我惊奇的是使用`//@ts-ignore`都无法屏蔽……不过本质上是因为`combinedReducers`用到了一个特有`Symbol`叫`$CombinedState`，反正挺蛋疼，我暂时先在`tsconfig.json`配置里把`declaration`和`declarationMap`关了，就没问题了，这个`ts`选项我暂时也用不到。）
 - [x] 基于以上对`redux-thunk`的修复，进一步寻找一个优秀的`typescipt`+`redux`的编码约定（目前我把所有的`actionTypes`写在一个文件里，然后在`actions`文件里写同步（直接返回`Action`）或者异步（`thunk`）代码，其中`thunk`不走`reducer`，同时还要把`thunk`中间件放在`logger`中间件的前面。另外，我不再考虑既声明`ActionType`又声明`Action`的问题了，对于`Action`直接使用`AnyAction`（默认自带`type`属性），对于`ActionType`直接使用`switch(action.type as XXActionType)`代码约定，我觉得挺好的。日后再研究其他大佬的代码吧~）
 
+### UI
 
+![image-20210419222746653](https://mark-vue-oss.oss-cn-hangzhou.aliyuncs.com/20210419_222747_353645-image-20210419222746653.png)
 
+### 链接：
 
+- [MarkShawn2020/finance-steward-GUI: 基于electron、react、redux、webpack、typescript](https://github.com/MarkShawn2020/finance-steward-GUI)
 
+### 框架
+
+- Electron
+- React
+- Redux
+- TypeScript
+- Webpack
 
 
 ## V0.0.1 概况
@@ -140,7 +148,7 @@
 
 我们可以通过识别框的宽度（是否超过屏幕宽度的百分之80），并且有省略号、最后是数字，等综合确定，以进行分割预处理。
 
-## V0.0.1 总结
+### V0.0.1 总结
 
 经过对以上问题的分析与处理后，目前已经去除了以上类型的问题。
 

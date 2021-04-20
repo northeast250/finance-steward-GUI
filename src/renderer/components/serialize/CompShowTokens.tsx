@@ -1,9 +1,12 @@
 import React from "react";
 import CompTokensTableRaw from "./tbl_ls_tokens/CompTokensTableRaw";
-import { TokenLS, TokenXQ } from "../../../general/interface/serialize/token";
+import {
+  SerializeLSResult,
+  SerializeXQResult,
+} from "../../common/interface/serialize/token";
 
 export interface CompLsTokensProps {
-  data: TokenLS;
+  data: SerializeLSResult;
 }
 
 export const CompLSTokens = (props: CompLsTokensProps) => {
@@ -23,7 +26,7 @@ export const CompLSTokens = (props: CompLsTokensProps) => {
 };
 
 export interface CompXqTokenProps {
-  data: TokenXQ;
+  data: SerializeXQResult;
 }
 
 export const CompXQTokens = (props: CompXqTokenProps) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { CompOcrWithMark } from "./CompOcrWithMark";
-import { ENABLE_SHOW_OCR_ITEMS } from "../../settings/control";
-import { API_OCR } from "../../settings/config";
+import { ENABLE_SHOW_OCR_ITEMS } from "../../../settings/controlRenderer";
+import { API_OCR } from "../../../settings/huawei";
 import { ImgProps } from "./CompImgInfo";
 
 export interface CompOcrDrawProps extends ImgProps {

@@ -1,7 +1,7 @@
 import React from "react";
-import { ENABLE_SHOW_IMG_INFO } from "../../settings/control";
-import { Img } from "../../../general/interface/img";
-import { getShortPath } from "../../../general/utils/img_helper";
+import { ENABLE_SHOW_IMG_INFO } from "../../../settings/controlRenderer";
+import { Img } from "../../common/interface/img";
+import { getShortPath } from "../../common/utils/img_helper";
 
 export interface ImgProps {
   img: Img;

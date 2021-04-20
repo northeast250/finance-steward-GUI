@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import { AppState } from "../../../redux/reducers";
 import { addMark, setMark } from "../../../redux/mark/actions";
 import { ImgProps } from "../img/CompImgInfo";
-import { getPath } from "../../../general/utils/img_helper";
+import { getPath } from "../../common/utils/img_helper";
 
 export interface CompAddMarkProps extends ImgProps {
   marks: MarkType[];

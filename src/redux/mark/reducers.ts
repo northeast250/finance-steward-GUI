@@ -1,8 +1,11 @@
 import { AnyAction } from "redux";
 import { MarkActionType } from "./types";
-import { dumpJsonFile, loadJsonFile } from "../../general/utils/io_base";
-import { MARK_TYPES_PATH, MARKS_DICT_PATH } from "../../general/config/path";
-import { PRESET_MARK_TYPES } from "../../renderer/settings/control";
+import {
+  dumpJsonFile,
+  loadJsonFile,
+} from "../../renderer/common/utils/io_base";
+import { MARK_TYPES_PATH, MARKS_DICT_PATH } from "../../settings/path";
+import { PRESET_MARK_TYPES } from "../../settings/controlRenderer";
 
 export type MarkType = string;
 export type MarksDict = { [key: string]: MarkType } | {};

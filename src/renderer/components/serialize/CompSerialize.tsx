@@ -4,7 +4,7 @@ import CompImgInfo, { ImgProps } from "../img/CompImgInfo";
 import {
   ENABLE_SHOW_OCR_ITEMS,
   ENABLE_SHOW_SERIALIZE,
-} from "../../settings/control";
+} from "../../../settings/controlRenderer";
 import { CompLSTokens, CompXQTokens } from "./CompShowTokens";
 import CompAddMark from "./CompAddMark";
 import { Card, CardContent } from "@material-ui/core";

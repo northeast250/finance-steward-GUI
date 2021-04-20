@@ -1,7 +1,7 @@
 import React from "react";
 import CompOcrDraw from "../img/CompOcrDraw";
 import CompImgInfo, { ImgProps } from "../img/CompImgInfo";
-import { API_OCR } from "../../settings/config";
+import { API_OCR } from "../../../settings/huawei";
 import { Card, CardContent } from "@material-ui/core";
 
 export interface CompOcrProps extends ImgProps {}

@@ -1,8 +1,8 @@
 import React from "react";
-import { IMG_SHOW_WIDTH } from "../../settings/control";
-import { OcrItems } from "../../../general/interface/ocr/ocrItem";
+import { IMG_SHOW_WIDTH } from "../../../settings/controlRenderer";
+import { OcrItems } from "../../common/interface/ocr/ocrItem";
 import { ImgProps } from "./CompImgInfo";
-import { getScale, getUrl } from "../../../general/utils/img_helper";
+import { getScale, getUrl } from "../../common/utils/img_helper";
 
 export interface CompOcrWithMarkProps extends ImgProps {
   ocrItems: OcrItems;

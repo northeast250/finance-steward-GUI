@@ -1,9 +1,9 @@
 import { AnyAction } from "redux";
 import { FILTER_LIBRARY, LibraryActionType, SET_LIBRARY } from "./types";
 import { BrandFilter, CatFilter, FilterLibrary, StatusFilter } from "./actions";
-import { Img } from "../../general/interface/img";
-import { loadJsonFile } from "../../general/utils/io_base";
-import { LIBRARY_PATH } from "../../general/config/path";
+import { Img } from "../../renderer/common/interface/img";
+import { loadJsonFile } from "../../renderer/common/utils/io_base";
+import { LIBRARY_PATH } from "../../settings/path";
 
 export interface ImgsState {
   root: string;

@@ -1,10 +1,10 @@
 import { Dispatch } from "redux";
 import { ipcRenderer } from "electron";
 import { FILTER_LIBRARY, SET_LIBRARY, SWITCH_ROOT } from "./types";
-import { Img } from "../../general/interface/img";
-import { loadImgsFromResourceRoot } from "../../general/utils/loadImgs";
-import { dumpJsonFile } from "../../general/utils/io_base";
-import { LIBRARY_PATH, MARKS_DICT_PATH } from "../../general/config/path";
+import { Img } from "../../renderer/common/interface/img";
+import { loadImgsFromResourceRoot } from "../../renderer/common/utils/loadImgs";
+import { dumpJsonFile } from "../../renderer/common/utils/io_base";
+import { LIBRARY_PATH, MARKS_DICT_PATH } from "../../settings/path";
 
 // export const BRAND_ALL = "BRAND_ALL";
 // export type BRAND_ALL = typeof BRAND_ALL;
