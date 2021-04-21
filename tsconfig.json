@@ -20,7 +20,8 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "allowJs": false
+    "allowJs": false,
+    "experimentalDecorators": true  // 装饰器
   },
   "include": [
     "src/**/*"

@@ -492,3 +492,17 @@ tokenLS.confidence = 1; // next time, the initial tokenLS2.confidence = 0 still
 
 
 写到此，使用函数的优越性就彰显出来了，这似乎，从另一个角度理解了，为什么在`redux`里把各种`action`写成函数要比写成对象方便的多了，或许，问题的关键就在此文中。
+
+### 关于`webpack`打包过程中出现的关于`node`的warning
+问题貌似产生于，`npm`和`yarn`混用。
+昨晚（2021年04月20日）我用`yarn`安装`chai`最后总是卡住，不断retry，最后用`npm`安装好了。
+
+我观察到，这个包貌似有很多依赖相关，这可能导致了我的环境发生了变化，在那之后，貌似我在运行`webpack`的打包程序时，就会出现这样的一个警告：
+```text
+Use the `--scripts-prepend-node-path` option to include the path for the node binary npm was executed with
+```
+
+最后参考这篇文章： [我想问一下这个问题怎么解决,谢谢!_慕课猿问](https://www.imooc.com/wenda/detail/348342) 得到了解决，方案就是运行如下：
+```bash
+yarn config set scripts-prepend-node-path true
+```
