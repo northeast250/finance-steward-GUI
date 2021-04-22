@@ -70,6 +70,7 @@ const dbFindBasicLibByPath = async (path) => {
         select: "-items",
         populate: {
             path: "parses",
+            select: "-tokens",
         },
     })
         .populate("parses");

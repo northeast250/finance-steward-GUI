@@ -8,8 +8,6 @@ const runtime_1 = require("@tsoa/runtime");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const libController_1 = require("./../src/api/lib/libController");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-const usersController_1 = require("./../src/api/users/usersController");
-// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const models = {
     "_LeanDocument__LeanDocument_T__": {
         "dataType": "refAlias",
@@ -36,28 +34,6 @@ const models = {
         "type": { "ref": "LeanDocument_this_", "validators": {} },
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "User": {
-        "dataType": "refObject",
-        "properties": {
-            "id": { "dataType": "double", "required": true },
-            "email": { "dataType": "string", "required": true },
-            "name": { "dataType": "string", "required": true },
-            "status": { "dataType": "union", "subSchemas": [{ "dataType": "enum", "enums": ["Happy"] }, { "dataType": "enum", "enums": ["Sad"] }] },
-            "phoneNumbers": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
-        },
-        "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_User.email-or-name-or-phoneNumbers_": {
-        "dataType": "refAlias",
-        "type": { "dataType": "nestedObjectLiteral", "nestedProperties": { "email": { "dataType": "string", "required": true }, "name": { "dataType": "string", "required": true }, "phoneNumbers": { "dataType": "array", "array": { "dataType": "string" }, "required": true } }, "validators": {} },
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "UserCreationParams": {
-        "dataType": "refAlias",
-        "type": { "ref": "Pick_User.email-or-name-or-phoneNumbers_", "validators": {} },
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const validationService = new runtime_1.ValidationService(models);
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -80,41 +56,6 @@ function RegisterRoutes(app) {
         }
         const controller = new libController_1.LibController();
         const promise = controller.queryByPath.apply(controller, validatedArgs);
-        promiseHandler(controller, promise, response, undefined, next);
-    });
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/users/:userId', function UsersController_getUser(request, response, next) {
-        const args = {
-            userId: { "in": "path", "name": "userId", "required": true, "dataType": "double" },
-            name: { "in": "query", "name": "name", "dataType": "string" },
-        };
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        let validatedArgs = [];
-        try {
-            validatedArgs = getValidatedArgs(args, request, response);
-        }
-        catch (err) {
-            return next(err);
-        }
-        const controller = new usersController_1.UsersController();
-        const promise = controller.getUser.apply(controller, validatedArgs);
-        promiseHandler(controller, promise, response, undefined, next);
-    });
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.post('/users', function UsersController_createUser(request, response, next) {
-        const args = {
-            requestBody: { "in": "body", "name": "requestBody", "required": true, "ref": "UserCreationParams" },
-        };
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        let validatedArgs = [];
-        try {
-            validatedArgs = getValidatedArgs(args, request, response);
-        }
-        catch (err) {
-            return next(err);
-        }
-        const controller = new usersController_1.UsersController();
-        const promise = controller.createUser.apply(controller, validatedArgs);
         promiseHandler(controller, promise, response, undefined, next);
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

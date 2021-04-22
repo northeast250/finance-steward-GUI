@@ -90,6 +90,7 @@ export const dbFindBasicLibByPath = async (
       select: "-items",
       populate: {
         path: "parses",
+        select: "-tokens",
       },
     })
     .populate("parses");
