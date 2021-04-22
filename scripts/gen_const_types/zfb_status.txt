@@ -1,0 +1,8 @@
+ZFBStatusOfWaitingPay = "等待付款",
+ZFBStatusOfWaitingYouPay = "等待对方付款",
+ZFBStatusOfTradeSuccess = "交易成功",
+ZFBStatusOfTradeClose = "交易关闭",
+ZFBStatusOfHandling = "处理中",
+ZFBStatusOfReceiving = "领取中",
+ZFBStatusOfRefund = "退款成功",
+ZFBStatusOfClosed = "已关闭",

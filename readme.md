@@ -6,7 +6,8 @@
 
 ## 项目概况
 ### TODO
-
+- [ ] 增加本地上传功能（以对OpenAPI进行测试）
+- [ ] 研究mongoose -> swagger的实现
 - [ ] **对分类结果与图片的本身标注做对比分析**
 - [ ] 进一步解决只识别出部分条目的图片问题（打算先以识别出小于3条的流水类图片着手分析）
 - [ ] 进一步解决未分类成功的问题
@@ -506,3 +507,22 @@ Use the `--scripts-prepend-node-path` option to include the path for the node bi
 ```bash
 yarn config set scripts-prepend-node-path true
 ```
+
+### 运行`express`的一些指令
+```shell
+{
+  "build:api": "tsoa spec-and-routes && tsc --experimentalDecorators --esModuleInterop --resolveJsonModule --outDir build src/api/server.ts",
+}
+```
+
+### 关于`ts-node`运行异常（耗时两小时）
+比如运行A函数，结果完全不符合预期，甚至是其他函数的结果，这种情况一定是`map`出问题了！
+
+用我们的`ts-node scripts/clear_non-ts-files.ts`脚本清除一下这些`map`就正常了！
+
+### 关于`populate`、`ObjectID`的问题
+当我们封装了一些CURD的接口后，返回的字段是否包含`populate`的信息，具体的说，是返回了一个`_id`的`string`还是一个`object`，这是个问题，需要脑子清醒！
+
+不然会报`can't cast xx to .... @path`之类的错误，值得注意。
+
+另外，集成`swagger`时发现无法识别`OID`类型（即`mongoose.Schema.Types.ObjectID`），所以后来就把`ObjectID`都改成`string`了。

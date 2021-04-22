@@ -2,9 +2,7 @@ import path from "path";
 import { app, BrowserWindow, ipcMain } from "electron";
 import { APP_TITLE, ENV } from "../general/config";
 import { Msg, MsgStatus, SIGNAL } from "../general/communications";
-import { dbFetchLibBase, LibBaseDoc } from "./db/lib_base";
-import { dbFindOneLibOcrByImgID } from "./db/lib_ocr";
-import { dbQueryAllLibCore, dbFilterLibCore } from "./db/lib_core";
+import { dbFetchBasicLib, dbFilterBasicLib } from "../db/lib_basic";
 
 // 开发模式使用electron热重载，它会自动构建依赖图
 // 一定要小心这里要监测的范围，由于我们修改electron主要是一些程序部分，所以千万不要把需要不断覆写的数据文件也加进来，不然会一直重载
@@ -40,8 +38,8 @@ function createMainWindow() {
 app.on("ready", createMainWindow);
 
 // 注册事件
-ipcMain.handle(SIGNAL.INIT_LIB, async (e) => {
-  const libCoreDocs = await dbQueryAllLibCore();
+ipcMain.handle(SIGNAL.INIT_LIB, async (e, ...args) => {
+  const libCoreDocs = await dbFetchBasicLib(...args);
   return JSON.stringify(libCoreDocs);
 });
 
@@ -49,26 +47,10 @@ ipcMain.handle(
   SIGNAL.FILTER_LIB,
   async (e, filter: string): Promise<Msg> => {
     try {
-      const libCoreDocs = await dbFilterLibCore(filter);
+      const libCoreDocs = await dbFilterBasicLib(filter);
       return { status: MsgStatus.success, data: JSON.stringify(libCoreDocs) };
     } catch (e) {
       return { status: MsgStatus.fail, message: e.message };
     }
   }
 );
-
-async function initLib1(...args: any) {
-  const imgBaseDocs: LibBaseDoc[] = await dbFetchLibBase(
-    args[0],
-    args[1],
-    args[2] || { limit: 20 }
-  );
-  await Promise.all(
-    imgBaseDocs.map(async (imgBaseDoc) => {
-      const imgOcrInfo = await dbFindOneLibOcrByImgID(imgBaseDoc.path);
-      console.log("former: ", imgBaseDoc);
-      Object.assign(imgBaseDoc, imgOcrInfo);
-    })
-  );
-  return JSON.stringify(imgBaseDocs);
-}

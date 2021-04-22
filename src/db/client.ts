@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { MONGO_URI } from "../config";
+import { MONGO_URI } from "../main/config";
 
 const client = mongoose;
 

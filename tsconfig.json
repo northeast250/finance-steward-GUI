@@ -19,12 +19,12 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true,    // dynamically import json files: https://tsoa-community.github.io/docs/live-reloading.html#supercharging-our-developer-experience-with-swaggerui
     "allowJs": false,
     "experimentalDecorators": true  // 装饰器
   },
   "include": [
-    "src/**/*"
+    "src/api/**/*" //只tsc编译express下的ts文件
   ],
   "exclude": [
     "node_modules",

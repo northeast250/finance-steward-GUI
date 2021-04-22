@@ -3,7 +3,6 @@ import { Component } from "react";
 import { setLibrary } from "./redux/lib/actions";
 import { AppState } from "./redux/store";
 import { connect } from "react-redux";
-import { ImgItem } from "./redux/lib/interface";
 import { ThunkDispatch } from "redux-thunk";
 import { Skeleton } from "@material-ui/lab";
 import { Button, Card, CardContent, Grid, TextField } from "@material-ui/core";
@@ -12,9 +11,10 @@ import { CompShowOcrItems } from "./components/ocr/CompShowOcrItems";
 import { IMG_WIDTH, SHOW_OCR_ITEMS } from "./config";
 import { ipcRenderer } from "electron";
 import { Msg, SIGNAL } from "../general/communications";
+import { FrontImg } from "./redux/lib/reducer";
 
 interface AppProps {
-  visibleImgs: ImgItem[];
+  visible: FrontImg[];
   setLibrary: any;
 }
 
@@ -34,7 +34,7 @@ class App extends Component<AppProps, any> {
   }
 
   render() {
-    const { visibleImgs, setLibrary } = this.props;
+    const { visible, setLibrary } = this.props;
     const { inited } = this.state;
     return (
       // body定义了8px的margin，所以这里width最好用100%，但height可以用100vh
@@ -43,8 +43,8 @@ class App extends Component<AppProps, any> {
 
         <div id={"content"} style={{ width: "100%", height: "100%" }}>
           {inited ? (
-            visibleImgs.map((img) => (
-              <Card key={img.base.path} variant={"outlined"}>
+            visible.map((img) => (
+              <Card key={img.path} variant={"outlined"}>
                 <CardContent>
                   <Grid container spacing={0} justify={"flex-start"}>
                     <Grid item xs sm={6} md={4} lg={3}>
@@ -145,11 +145,11 @@ class App extends Component<AppProps, any> {
 }
 
 const mapState = (state: AppState) => ({
-  visibleImgs: state.lib.visibleImgs,
+  visible: state.lib.visible,
 });
 
 const mapDispatch = (dispatch: ThunkDispatch<AppState, null, any>) => ({
-  setLibrary: (s: ImgItem[]) => dispatch(setLibrary(s)),
+  setLibrary: (s: FrontImg[]) => dispatch(setLibrary(s)),
 });
 
 export default connect(mapState, mapDispatch)(App);
