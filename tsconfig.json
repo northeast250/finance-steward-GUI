@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",
     "target": "ES2018",
     "module": "CommonJS",
     "lib": ["dom", "esnext"],
@@ -24,7 +25,9 @@
     "experimentalDecorators": true  // 装饰器
   },
   "include": [
-    "src/api/**/*" //只tsc编译express下的ts文件
+    "src/api/**/*", //只tsc编译express下的ts文件
+    "src/db/**/*", //只tsc编译express下的ts文件
+    "src/koa2/**/*" //只tsc编译express下的ts文件
   ],
   "exclude": [
     "node_modules",

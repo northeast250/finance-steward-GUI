@@ -76,15 +76,25 @@ export const dbAddBasicLib = async (
   return doc;
 };
 
-export const dbFetchBasicLib = async (...args: any): Promise<BasicLibDoc[]> => {
-  return basicLibModel.find(...args).populate("ocrs");
+export const dbFetchBasicLib = async (...args: any): Promise<Object[]> => {
+  return basicLibModel
+    .find()
+    .limit(10)
+    .lean()
+    .populate({
+      path: "ocrs",
+      select: "",
+      populate: {
+        path: "parses",
+        select: "-tokens",
+      },
+    });
 };
 
-export const dbFindBasicLibByPath = async (
-  path: string
-): Promise<BasicLibDoc> => {
+export const dbFindBasicLibByPath = async (path: string): Promise<Object> => {
   const doc = await basicLibModel
     .findOne({ path: { $regex: path } })
+    .lean()
     .populate({
       path: "ocrs",
       select: "-items",
@@ -92,16 +102,15 @@ export const dbFindBasicLibByPath = async (
         path: "parses",
         select: "-tokens",
       },
-    })
-    .populate("parses");
-  assert(doc);
+    });
+  assert(doc, "CAN'T FIND THE TARGET DOC!");
   return doc;
 };
 
-export const dbFilterBasicLib = async (s: string): Promise<BasicLibDoc[]> => {
+export const dbFilterBasicLib = async (s: string): Promise<Object[]> => {
   if (s.search(/^\s*return /) < 0) s = "return " + s;
   // @ts-ignore
-  const funcFilter: (doc: BasicLibDoc) => boolean = new Function("doc", s);
-  const docs: BasicLibDoc[] = await basicLibModel.find().populate("ocrs");
-  return docs.filter((doc: BasicLibDoc) => funcFilter(doc));
+  const funcFilter: (doc: Object) => boolean = new Function("doc", s);
+  const docs: Object[] = await basicLibModel.find().lean().populate("ocrs");
+  return docs.filter((doc: Object) => funcFilter(doc));
 };

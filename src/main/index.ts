@@ -38,10 +38,12 @@ function createMainWindow() {
 app.on("ready", createMainWindow);
 
 // 注册事件
-ipcMain.handle(SIGNAL.INIT_LIB, async (e, ...args) => {
-  const libCoreDocs = await dbFetchBasicLib(...args);
-  return JSON.stringify(libCoreDocs);
-});
+ipcMain.handle(
+  SIGNAL.INIT_LIB,
+  async (e, ...args): Promise<Object> => {
+    return dbFetchBasicLib(...args);
+  }
+);
 
 ipcMain.handle(
   SIGNAL.FILTER_LIB,

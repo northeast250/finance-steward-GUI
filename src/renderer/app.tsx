@@ -8,10 +8,11 @@ import { Skeleton } from "@material-ui/lab";
 import { Button, Card, CardContent, Grid, TextField } from "@material-ui/core";
 import { CompImgWithOcr } from "./components/ocr/CompImgWithOcr";
 import { CompShowOcrItems } from "./components/ocr/CompShowOcrItems";
-import { IMG_WIDTH, SHOW_OCR_ITEMS } from "./config";
+import { IMG_WIDTH, SHOW_OCR_ITEMS, SHOW_PARSED_RESULT } from "./config";
 import { ipcRenderer } from "electron";
 import { Msg, SIGNAL } from "../general/communications";
 import { FrontImg } from "./redux/lib/reducer";
+import { CompShowParsedResult } from "./components/parse/CompShowParsedResult";
 
 interface AppProps {
   visible: FrontImg[];
@@ -27,9 +28,10 @@ class App extends Component<AppProps, any> {
     };
   }
   async componentDidMount() {
-    const libString: string = await ipcRenderer.invoke(SIGNAL.INIT_LIB);
+    const docs: Object[] = await ipcRenderer.invoke(SIGNAL.INIT_LIB);
+    console.log(docs);
     this.setState({ inited: true });
-    this.props.setLibrary(JSON.parse(libString));
+    this.props.setLibrary(docs);
     console.log("inited ");
   }
 
@@ -54,6 +56,12 @@ class App extends Component<AppProps, any> {
                     {SHOW_OCR_ITEMS && (
                       <Grid item xs sm={6} md={4} lg={3}>
                         <CompShowOcrItems img={img} />
+                      </Grid>
+                    )}
+
+                    {SHOW_PARSED_RESULT && (
+                      <Grid item xs sm={6} md={4} lg={3}>
+                        <CompShowParsedResult img={img} />
                       </Grid>
                     )}
                   </Grid>

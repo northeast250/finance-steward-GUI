@@ -14,6 +14,8 @@
 - [ ] 对详情类图片做进一步的检验（因为这个相较于流水类更难捕捉出错误）
 - [ ] 对分类的所有结果进行统计分析
 - [ ] 增加对其他类型，例如图片等文件的导入支持（暂无需求）
+  
+### Finished
 - [x] 解决`react`的热更新问题（已基于`webpack serve`实现）
 - [x] 解决`electron`的热更新问题（已基于`electron-reloader`实现）
 - [x] 增加对`css`、`less`等文件的导入支持（已基于`style-loader`、`css-loader`、`les-loader`在`webpack`中实现）
@@ -35,6 +37,24 @@
 - Redux
 - TypeScript
 - Webpack
+
+
+## 开发日志
+
+
+### 2021年04月23日
+- 完成云端数据库的重新安装、配置
+
+### 2021年04月22日 完成代码的重构、初步搭建了API
+
+彻底重构了代码，所有接口均重新统一定义，接口、视图、算法、配置、自动脚本高度模块化。
+
+![image-20210422235233650](https://mark-vue-oss.oss-cn-hangzhou.aliyuncs.com/20210422_235234_432822-image-20210422235233650.png)
+
+
+### 2021年04月18日 第一版UI
+
+![image-20210419222746653](https://mark-vue-oss.oss-cn-hangzhou.aliyuncs.com/20210419_222747_353645-image-20210419222746653.png)
 
 
 ## V0.0.1 概况
@@ -526,3 +546,46 @@ yarn config set scripts-prepend-node-path true
 不然会报`can't cast xx to .... @path`之类的错误，值得注意。
 
 另外，集成`swagger`时发现无法识别`OID`类型（即`mongoose.Schema.Types.ObjectID`），所以后来就把`ObjectID`都改成`string`了。
+
+
+### MongoDB配置
+
+#### 卸载`mongodb`
+> 参考：https://m.yisu.com/zixun/146420.html
+```shell
+sudo yum erase $(rpm -qa | grep mongodb-org) #卸载MongoDB
+sudo rm -r /var/log/mongodb #删除日志文件
+sudo rm -r /var/lib/mongo  #删除数据文件
+```
+
+#### 安装`mongodb`
+> 参考（red-hat）：[official tutorial of installing mongodb](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#run-mongodb-community-edition)
+```shell
+# 1. 配置`mongo`的仓库信息
+cat > /etc/yum.repos.d/mongodb-org-4.4.repo << EOF
+[mongodb-org-4.4]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.4/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
+EOF
+
+# 2. 通过`yum`安装
+sudo yum install -y mongodb-org
+
+# 3. 升级权限，比如
+# sudo chown -R mongod:mongod <directory>
+# 比如这是我之前的遗留mongo配置文件，需要升级权限，否则会出现`ExecStart=/usr/bin/mongod $OPTIONS (code=exited, status=14)`：  
+# sudo chown mongod:mongod /tmp/mongodb-27017.sock
+
+# 4. 启动
+systemctl start mongod
+```
+
+#### 修改`mongodb`配置
+默认配置文件路径：`/etc/mongod.conf`
+
+配置文件的具体信息参考：https://docs.mongodb.com/manual/reference/configuration-options/#security-options
+
+修改其中的`net.bindIp`为`0.0.0.0`（并重启）就可以给外网访问了（无需密码）。

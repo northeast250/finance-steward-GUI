@@ -9,29 +9,13 @@ import * as express from 'express';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
-    "_LeanDocument__LeanDocument_T__": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick__LeanDocument_T_.Exclude_keyof_LeanDocument_T_.Exclude_keyofDocument._id-or-id-or-__v_-or-%24isSingleNested__": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"_id":{"ref":"_LeanDocument__LeanDocument_T__"},"__v":{"dataType":"any"},"id":{"dataType":"any"}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Omit__LeanDocument_this_.Exclude_keyofDocument._id-or-id-or-__v_-or-%24isSingleNested_": {
-        "dataType": "refAlias",
-        "type": {"ref":"Pick__LeanDocument_T_.Exclude_keyof_LeanDocument_T_.Exclude_keyofDocument._id-or-id-or-__v_-or-%24isSingleNested__","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "LeanDocument_this_": {
-        "dataType": "refAlias",
-        "type": {"ref":"Omit__LeanDocument_this_.Exclude_keyofDocument._id-or-id-or-__v_-or-%24isSingleNested_","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "BasicLibDoc": {
-        "dataType": "refAlias",
-        "type": {"ref":"LeanDocument_this_","validators":{}},
+    "ErrorResponseJSON": {
+        "dataType": "refObject",
+        "properties": {
+            "message": {"dataType":"enum","enums":["Validation failed"],"required":true},
+            "details": {"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"any"},"required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -63,6 +47,29 @@ export function RegisterRoutes(app: express.Router) {
 
 
             const promise = controller.queryByPath.apply(controller, validatedArgs as any);
+            promiseHandler(controller, promise, response, undefined, next);
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/lib',
+            function LibController_uploadImg(request: any, response: any, next: any) {
+            const args = {
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
+                    files: {"in":"body","name":"files","required":true,"dataType":"any"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = new LibController();
+
+
+            const promise = controller.uploadImg.apply(controller, validatedArgs as any);
             promiseHandler(controller, promise, response, undefined, next);
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

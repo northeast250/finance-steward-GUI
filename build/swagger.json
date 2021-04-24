@@ -6,34 +6,27 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"_LeanDocument__LeanDocument_T__": {
-				"properties": {},
-				"type": "object"
-			},
-			"Pick__LeanDocument_T_.Exclude_keyof_LeanDocument_T_.Exclude_keyofDocument._id-or-id-or-__v_-or-%24isSingleNested__": {
+			"ErrorResponseJSON": {
 				"properties": {
-					"_id": {
-						"$ref": "#/components/schemas/_LeanDocument__LeanDocument_T__",
-						"description": "This documents _id."
+					"message": {
+						"type": "string",
+						"enum": [
+							"Validation failed"
+						],
+						"nullable": false
 					},
-					"__v": {
-						"description": "This documents __v."
-					},
-					"id": {
-						"description": "The string version of this documents _id."
+					"details": {
+						"properties": {},
+						"additionalProperties": {},
+						"type": "object"
 					}
 				},
+				"required": [
+					"message",
+					"details"
+				],
 				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
-			},
-			"Omit__LeanDocument_this_.Exclude_keyofDocument._id-or-id-or-__v_-or-%24isSingleNested_": {
-				"$ref": "#/components/schemas/Pick__LeanDocument_T_.Exclude_keyof_LeanDocument_T_.Exclude_keyofDocument._id-or-id-or-__v_-or-%24isSingleNested__"
-			},
-			"LeanDocument_this_": {
-				"$ref": "#/components/schemas/Omit__LeanDocument_this_.Exclude_keyofDocument._id-or-id-or-__v_-or-%24isSingleNested_"
-			},
-			"BasicLibDoc": {
-				"$ref": "#/components/schemas/LeanDocument_this_"
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -59,8 +52,26 @@
 						"description": "Ok",
 						"content": {
 							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"422": {
+						"description": "error of 422",
+						"content": {
+							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BasicLibDoc"
+									"$ref": "#/components/schemas/ErrorResponseJSON"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "error of 500",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponseJSON"
 								}
 							}
 						}
@@ -80,6 +91,34 @@
 						}
 					}
 				]
+			}
+		},
+		"/lib": {
+			"post": {
+				"operationId": "UploadImg",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Library"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {}
+						}
+					}
+				}
 			}
 		}
 	},
