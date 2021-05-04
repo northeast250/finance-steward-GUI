@@ -2,7 +2,7 @@ import path from "path";
 import { app, BrowserWindow, ipcMain } from "electron";
 import { APP_TITLE, ENV } from "../general/config";
 import { Msg, MsgStatus, SIGNAL } from "../general/communications";
-import { dbFetchBasicLib, dbFilterBasicLib } from "../db/lib_basic";
+import { basicLibModel, dbFilterBasicLib } from "../db/lib_basic";
 
 // 开发模式使用electron热重载，它会自动构建依赖图
 // 一定要小心这里要监测的范围，由于我们修改electron主要是一些程序部分，所以千万不要把需要不断覆写的数据文件也加进来，不然会一直重载
@@ -41,7 +41,19 @@ app.on("ready", createMainWindow);
 ipcMain.handle(
   SIGNAL.INIT_LIB,
   async (e, ...args): Promise<Object> => {
-    return dbFetchBasicLib(...args);
+    const data = await basicLibModel
+      .find(...args)
+      .limit(10)
+      .lean()
+      .populate({
+        path: "ocrs",
+        populate: {
+          path: "parses",
+          select: "-tokens",
+        },
+      });
+    console.log({ data });
+    return data;
   }
 );
 

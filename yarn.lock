@@ -4519,6 +4519,11 @@ mongoose-autopopulate@^0.13.0:
   resolved "https://registry.nlark.com/mongoose-autopopulate/download/mongoose-autopopulate-0.13.0.tgz#6f5dd1e3e0020ea6cb941f9514a85e39c01a4561"
   integrity sha1-b13R4+ACDqbLlB+VFKheOcAaRWE=
 
+mongoose-lean-id@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.nlark.com/mongoose-lean-id/download/mongoose-lean-id-0.2.0.tgz#f88a92e65ecd1001f54bf0d1a20dfcc09693ebdc"
+  integrity sha1-+IqS5l7NEAH1S/DRog38wJaT69w=
+
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.npm.taobao.org/mongoose-legacy-pluralize/download/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"

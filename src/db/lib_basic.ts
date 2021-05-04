@@ -8,6 +8,10 @@ export const COLL_BASIC_LIB = "lib_base";
 
 const LibBaseSchema = new Schema(
   {
+    _id: {
+      type: Schema.Types.ObjectId,
+      get: (s: Schema.Types.ObjectId) => s.toString(),
+    },
     ocrs: [
       {
         type: Schema.Types.ObjectId,
@@ -46,8 +50,11 @@ const LibBaseSchema = new Schema(
   { collection: COLL_BASIC_LIB }
 );
 
+LibBaseSchema.plugin(require("mongoose-lean-id"));
+
 export interface BasicLibDoc extends Document, Basic {
-  _id: string;
+  _id?: string;
+  id?: string;
   ocrs: (OcrLibDoc | string)[]; // 输出的时候，必须populate
 }
 
@@ -77,10 +84,9 @@ export const dbAddBasicLib = async (
 };
 
 export const dbFetchBasicLib = async (...args: any): Promise<Object[]> => {
-  return basicLibModel
+  const data = await basicLibModel
     .find()
     .limit(10)
-    .lean()
     .populate({
       path: "ocrs",
       select: "",
@@ -89,6 +95,8 @@ export const dbFetchBasicLib = async (...args: any): Promise<Object[]> => {
         select: "-tokens",
       },
     });
+  console.log(data);
+  return data;
 };
 
 export const dbFindBasicLibByPath = async (path: string): Promise<Object> => {

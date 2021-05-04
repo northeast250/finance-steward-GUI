@@ -40,6 +40,13 @@
 
 
 ## 开发日志
+### 2021年05月04日
+#### `mongoose lean with string type of ObjectId`
+官方`lean`描述：
+- [Mongoose v5.12.7: Mongoose Tutorials: Faster Mongoose Queries With Lean](https://mongoosejs.com/docs/tutorials/lean.html)
+
+而将`lean`结果中的`ObjectId`转成`string`，可以通过使用以下插件：
+- [mongoosejs/mongoose-lean-id: Attach `id` to the results of mongoose queries when using `.lean()`](https://github.com/mongoosejs/mongoose-lean-id)
 
 
 ### 2021年04月23日

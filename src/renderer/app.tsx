@@ -1,5 +1,4 @@
-import React from "react";
-import { Component } from "react";
+import React, { Component } from "react";
 import { setLibrary } from "./redux/lib/actions";
 import { AppState } from "./redux/store";
 import { connect } from "react-redux";
@@ -29,7 +28,6 @@ class App extends Component<AppProps, any> {
   }
   async componentDidMount() {
     const docs: Object[] = await ipcRenderer.invoke(SIGNAL.INIT_LIB);
-    console.log(docs);
     this.setState({ inited: true });
     this.props.setLibrary(docs);
     console.log("inited ");

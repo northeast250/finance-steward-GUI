@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+// @ts-ignore
+mongoose.Schema.ObjectId.get((v) => (v != null ? v.toString() : v));
+
 import { MONGO_URI } from "../main/config";
 
 const client = mongoose;

@@ -25,11 +25,7 @@ export const rendererConfig = merge(basicConfig, {
     },
     // devServer内部的所有中间件执行之前的自定义执行函数，这里用于启动electron
     before: (app, server, compiler) => {
-      console.log(
-        "%cWelcome!",
-        "background-image:url('https://mark-vue-oss.oss-cn-hangzhou.aliyuncs.com/20210211_163453_490482-%E5%8D%97%E5%AE%A1-%E5%A4%A7%E6%B4%BB-%E4%BF%AF%E7%9E%B0%E5%9B%BE.jpg');color:white;padding:100px 200px;font-size:20px"
-      );
-      spawn("npm", ["run", "start:main"], {
+      spawn("npm", ["run", "electorn:main"], {
         shell: true,
         env: process.env,
         stdio: "inherit",

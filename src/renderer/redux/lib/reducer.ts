@@ -27,6 +27,7 @@ export const libReducer = (
   switch (action.type as LibActionTypes) {
     case INIT_LIB:
       const imgs: FrontImg[] = action.payload;
+      console.log({ imgs });
       return { ...state, imgs, visible: imgs.slice(0, 20) };
     default:
       return state;
